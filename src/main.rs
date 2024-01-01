@@ -4,7 +4,13 @@ use crate::tic_tac_toe::*;
 mod tic_tac_toe;
 
 fn main() {
-    let mut game = Game::new(3, 5);
+    println!("Please enter the board size");
+    let mut user_input = String::new();
+    io::stdin().read_line(&mut user_input).expect("Failed to read line");
+
+    let choice: Vec<&str> = user_input.split(',').collect();
+
+    let mut game = Game::new(choice[0].trim().parse().unwrap(), choice[1].trim().parse().unwrap());
 
     game.start();
 
