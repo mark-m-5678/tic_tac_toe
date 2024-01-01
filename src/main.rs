@@ -4,7 +4,7 @@ use crate::tic_tac_toe::*;
 mod tic_tac_toe;
 
 fn main() {
-    let mut game = Game::new();
+    let mut game = Game::new(3, 5);
 
     game.start();
 
