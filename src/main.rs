@@ -1,16 +1,31 @@
-use std::io;
+use std::{io, process::exit};
 use crate::tic_tac_toe::*;
 
 mod tic_tac_toe;
 
 fn main() {
+    let mut game: Game;
+
     println!("Please enter the board size");
     let mut user_input = String::new();
     io::stdin().read_line(&mut user_input).expect("Failed to read line");
 
     let choice: Vec<&str> = user_input.split(',').collect();
 
-    let mut game = Game::new(choice[0].trim().parse().unwrap(), choice[1].trim().parse().unwrap());
+    match (choice[0].trim().parse(), choice[1].trim().parse()) {
+        (Ok(size_x), Ok(size_y)) => {
+            if !validate_size(size_x, size_y) {
+                println!("Board size is invalid!");
+                exit(0);
+            }
+
+            game = Game::new(size_x, size_y);
+        },
+        _ => {
+            println!("Please enter board size in the correct format");
+            exit(0);
+        }
+    }
 
     game.start();
 
@@ -66,4 +81,8 @@ fn main() {
             }
         }
     }
+}
+
+fn validate_size(x: usize, y: usize) -> bool {
+    (3..2004).contains(&x) && (3..1446).contains(&y)
 }
